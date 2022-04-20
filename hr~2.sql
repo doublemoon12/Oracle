@@ -2,16 +2,20 @@ desc department;
 
 select * from employee;
 
+select eno 사원번호, ename 사원명, job 직책, manager "직속상관 ID",
+    hiredate 입사날짜, salary 월급, commission 보너스, dno 부서번호
+from employee;
+
 -- 1.
 select ename, salary,
 salary + 300 "인상된 급여"
 from employee;
 
 -- 2.
-select ename, salary,
-salary * 12 + 100
+select ename, salary, commission,
+salary * 12 + nvl(commission, 0) + 100 총연봉
 from employee
-order by salary * 12 + 100 DESC;
+order by salary * 12 + nvl(commission, 0) + 100 DESC;
 
 -- 3.
 select ename, salary
@@ -43,7 +47,7 @@ order by ename desc;
 -- 8.
 select ename, salary ,dno
 from employee
-where salary BETWEEN 2000 and 3000 and dno = 20 or dno = 30
+where (salary BETWEEN 2000 and 3000) and (dno in (20, 30))
 order by ename;
 
 -- 9.
@@ -72,10 +76,14 @@ select ename
 from employee
 where ename like '%A%E%' or ename like '%E%A%';
 
+select ename
+from employee
+where ename like '%A%' and ename like '%E%';
+
 -- 14.
 select ename, job ,salary
 from employee
-where job in ('CLERK', 'SALESMAN') and salary not in (1600, 950, 1300);
+where (job in ('CLERK', 'SALESMAN')) and (salary not in (1600, 950, 1300));
 
 -- 15.
 select ename, salary, commission
