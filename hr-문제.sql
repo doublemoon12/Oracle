@@ -67,12 +67,15 @@ from employee;
 SELECT rpad(rpad('951123-1111111', 8), 14, '*'), rpad(rpad('010-1111-1111', 6), 13, '*')
 from dual;
 
+select rpad(substr('801210-1234567', 1, 8), length('801210-1234567'), '*')
+from dual;
+
 -- 10.
-select eno, ename, manager, case when manager like '75%' then 5555
-                                when manager like '76%' then 6666
-                                when manager like '77%' then 7777
-                                when manager like '78%' then 8888
-                                when manager is null then 0000
-                                else manager
+select eno, ename, manager, case when manager like '75%' then '5555'
+                                when manager like '76%' then '6666'
+                                when manager like '77%' then '7777'
+                                when manager like '78%' then '8888'
+                                when manager is null then '0000'
+                                else to_char(manager, '999999')
                             END as ¹øÈ£
 from employee;
