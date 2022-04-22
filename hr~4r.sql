@@ -258,3 +258,74 @@ select ename, dname, salary, grade
 from employee e, department d, salgrade s
 where e.dno = d.dno
 and salary BETWEEN losal and hisal;
+
+-- 제약 조건 : 테이블의 컬럼에 할당 되어서 데이터의 무결성을 확보
+    -- Primary Key  : 테이블에 한번만 사용할 수 있다. 하나의 컬럼, 두개이상을 그룹핑해서 적용
+                -- 중복된 값을 넣을 수 없다. NULL값을 넣을 수 없다.
+    -- UNIQE        : 테이블에 여러 컬럼에 할당할 수 있다. 중복된 값을 넣을 수 없다.
+                -- NULL 넣을 수 있다(단 한번만). 
+    -- Foreign Key  : 다른 테이블의 특정 컬럼의 값을 참조해서 넣을 수 있다.
+                -- 자신의 컬럼에 임의의 값을 할당하지 못한다.
+    -- NOT NULL     : NULL값을 커럼에 할당할 수 없다.
+    -- CHECK        : 컬럼에 값을 할당 할 떄 체크해서(조건에 만족) 값을 할당.
+    -- Default      : 값을 넣지 않을때 기본값이 할당 되도록
+    
+
+-- Self JOIN : 자기 자신의 테이블을 조인한다.(주로 사원의 상사 정보를 출력 할때 사용)
+    -- 별칭을 반드시 사용해야한다.
+    -- select 절 : 테이블 이름 별칭.컬럼명
+    
+select eno, ename, manager
+from employee
+where manager = '7788';
+
+-- Self JOIN을 사용해서 사원의 직속 상관 출력
+select e.eno 사원번호, e.ename 사원이름, e.manager 직속상관번호, m.ename 직속상관이름
+from employee e, employee m -- Self JOIN : 
+where e.manager (+) = m.eno;
+
+
+-- EQUI JOIN으로 SELF JOIN을 처리
+select e.ename || '의 직속 상관은' || m.ename || '입니다.'
+from employee e, employee m
+where e.manager = m.eno
+order by e.ename;
+
+select eno, ename, manager, eno, ename
+from employee;
+
+-- ANSI 호환 : INNER JOIN으로 처리.
+select e.eno 사원번호, e.ename 사원이름, e.manager 직속상관번호, m.ename 직속상관이름
+from employee e inner join employee m
+on e.manager = m.eno;
+
+select e.ename || '의 직속 상관은' || m.ename || '입니다.'
+from employee e inner join employee m
+on e.manager = m.eno
+order by e.ename;
+
+-- OUTER JOIN : 
+    -- 특정 컬럼의 두 테이블에서 공통적이지 않는 내용을 출력해야 할 때.
+    -- 공통적이지 않는 컬럼은 NULL로 출력
+    -- +기호를 사용해서 출력 : Oracle
+    -- ANSI호환 : OUTER JOIN구문 사용 <== 모든 DBMS에서 호환.
+    
+select e.ename, m.ename
+from employee e join employee m
+on e.manager = m.eno (+)
+order by e.ename;
+
+-- ANSI호환을 사용해서 출력
+    -- LEFT Outer JOIN : 공통적인 부분이 없더라도 왼쪽은 무조건 모두 출력
+    -- RIGHT Outer JOIN: 공통적인 부분이 없더라도 오른쪽은 무조건 모두 출력
+    -- FULL Outer JOIN : 공통적인 부분이 없더라도 양쪽 모두 무조건 모두 출력
+select e.ename, m.ename
+from employee e right OUTER join employee m
+on e.manager = m.eno
+order by e.ename;
+
+
+
+
+
+

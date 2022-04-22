@@ -5,15 +5,42 @@ SELECT
 FROM employee;
 
 -- 1.
-SELECT max(salary)최고액, min(salary)최저액, sum(salary)총액, trunc(avg(salary))평균
+SELECT max(salary)최고액, min(salary)최저액, sum(salary)총액, round(avg(salary))평균
 from employee;
 
 -- 2.
-SELECT job, max(salary)최고액, min(salary)최저액, sum(salary)총액, trunc(avg(salary))평균
+SELECT job, max(salary)최고액, min(salary)최저액, sum(salary)총액, round(avg(salary))평균
 from employee
 group by job;
 
+-- 2-1.
+SELECT job, max(salary)최고액, min(salary)최저액, sum(salary)총액, round(avg(salary))평균
+from employee
+group by rollup(job);
+
+SELECT job, max(salary)최고액, min(salary)최저액, sum(salary)총액, round(avg(salary))평균
+from employee
+group by cube(job)
+order by job;
+
+-- 2-2 두개 이상의 컬럼을 그룹핑
+SELECT dno, job,count(*) , max(salary)최고액, min(salary)최저액, sum(salary)총액, round(avg(salary))평균
+from employee
+group by dno, job
+order by dno asc;
+
+SELECT dno, job,count(*) , max(salary)최고액, min(salary)최저액, sum(salary)총액, round(avg(salary))평균
+from employee
+group by rollup(dno, job);
+
+SELECT dno, job,count(*) , max(salary)최고액, min(salary)최저액, sum(salary)총액, round(avg(salary))평균
+from employee
+group by cube(dno, job)
+order by dno;
+
 -- 3.
+select count(distinct job)from employee;
+
 select job, count(job)
 from employee
 group by job;
@@ -49,6 +76,6 @@ select decode(dno, 10, 'ACCOUNTING',
                     20, 'DALLS',
                     30, 'CHICAO',
                       'DEFAULT') as Location,
-        count(dno)"Number of People", trunc(avg(salary))Salary
+        count(dno)"Number of People", round(avg(salary))Salary
 from employee
 group by dno;
