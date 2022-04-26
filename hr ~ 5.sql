@@ -32,7 +32,7 @@ where salary = (select min(salary) from employee);
 -- Having절에 Sub query 사용하기.
 
 -- 30번 부서(dno)에서 최소 월급을 받는 사원보다 많은 사원들 이름과, 부서와, 부서번호와 월급을 출력
-select  dno, min(salary), count(dno)
+select dno, min(salary), count(dno)
 from employee
 group by dno
 having (min(salary) > (select min(salary) from employee where dno = 30));
