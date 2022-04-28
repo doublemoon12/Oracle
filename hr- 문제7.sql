@@ -52,7 +52,7 @@ modify commission CONSTRAINT my_emp_nn not null;
 select * from emp_sample;
 
 -- 8.
-
+    -- Primary ket를 제거할때 cascade옵션을 사용하면 Foreign key가 먼저 제거되고 Primary key가 제거됨.
 select * from user_constraints
 where table_name = 'EMP_SAMPLE';
 
@@ -85,6 +85,10 @@ select * from v_em_dno;
 
 -- 2
 
+create or replace view v_em_dno
+as  
+select eno, ename, dno, salary from employee
+where dno = 20;
 
 -- 3.
 
@@ -100,5 +104,8 @@ group by dno;
 
 -- 5.
 
-alter view v_sal_dno read only;
-
+create or replace view v_em_dno
+as
+select dno, min(salary) min, max(salary) max, avg(salary) avg, sum(salary) sum
+from employee
+group by dno with READ only;

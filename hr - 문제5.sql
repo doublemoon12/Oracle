@@ -11,11 +11,14 @@ create table emp(
     ename varchar2(10) null,   
     dno number(2) null
     )
+
+-- DB 설정에 따라서, NULL 허용 여부가 다르게 셋팅되어 있을 수 있다.
+
 -- 3.
 
 alter table emp
 modify (ename varchar2(25));
-
+    
 -- 4.
 
 create table employee2
@@ -51,7 +54,7 @@ drop unused COLUMN;
 create table emp_insert
 as
 select * from emp
-where 0 = 1;
+where 0 = 1;    -- 조건을 false로 설정하려면
 
 alter table emp_insert
 add(hiredate date);
@@ -67,7 +70,7 @@ values(1234, '김문준', 55555.55, 07, sysdate);
 
 -- 3.
 insert into emp_insert
-values(5678, '홍길동', 33333.33, 09, to_date('2022-04-25', 'YYYY-MM-DD'));
+values(5678, '홍길동', 33333.33, 09, to_date('sysdate -1', 'YYYY-MM-DD'));
 
 -- 4.
 create table emp_copy
@@ -78,12 +81,14 @@ select * from employee;
 update emp_copy
 set dno = 10
 where eno = 7788;
-
+commit; -- 트랜잭션 처리
 
 -- 6.
 update emp_copy
 set job = (select job from emp_copy where eno = 7499) , salary = (select salary from emp_copy where eno = 7499)
 where eno = 7788;
+
+commit;
 
 select * from dept_copy;
 

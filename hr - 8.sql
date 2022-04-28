@@ -171,5 +171,36 @@ update v_readonly
 set dname = 'HR77', loc = 'BUSAN77'
 where dno = 88;
 
+select * from user_tables
+where table_name = 'DEPT';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
